@@ -48,3 +48,28 @@ async def user(id: int):
 # la operación que ejecutamos es asíncrona
 async def user_query(id: int):
     return search_user(id)
+
+
+@app.post('/users/')
+# utilizamos nuestra calse User
+async def user(user: User):
+    if type(search_user(user.id)) == User:
+        return {"error": "El usuario ya existe"}
+    else:
+        # agrega a nuestra lista de usuarios, un nuevo usuario. en el PUT deben ir los datos como JSON
+        users_list.append(user)
+
+
+@app.put('/users/')
+async def user(user: User):
+
+    found = False
+
+    # buscamos el usuario en nuestros datos
+    for index, saved_user in enumerate(users_list):
+        if saved_user.id == user.id:
+            users_list[index] = user
+            found = True
+
+    if not found:
+        return {"error": "No se ha actualizado el usuario"}
