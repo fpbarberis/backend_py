@@ -18,6 +18,15 @@ class User(BaseModel):
     age: int
 
 
+def search_user(id: int):
+    # filtramos la lista de usuarios por id
+    users = filter(lambda user: user.id == id, users_list)
+    try:
+        return list(users)[0]
+    except:
+        return {"error": "No existe usuario asociado a ese ID"}
+
+
 users_list = [User(id=1, name="Jhon", surname="Doe", url="www.paginajhon.com", age=30),
               User(id=2, name="Jane", surname="Doe", url="www.paginaJane.com", age=31)]
 
@@ -31,21 +40,11 @@ async def usersjson():
 @app.get('/users/{id}')
 # la operación que ejecutamos es asíncrona
 async def user(id: int):
-    # filtramos la lista de usuarios por id
-    users = filter(lambda user: user.id == id, users_list)
-    try:
-        return list(users)[0]
-    except:
-        return {"error": "No existe usuario asociado a ese ID"}
+    return search_user(id)
 
 
 @app.get('/userquery/')
 # localhots + /userquery/?id=1 para buscar por id en la query GET
 # la operación que ejecutamos es asíncrona
-async def user(id: int):
-    # filtramos la lista de usuarios por id
-    users = filter(lambda user: user.id == id, users_list)
-    try:
-        return list(users)[0]
-    except:
-        return {"error": "No existe usuario asociado a ese ID"}
+async def user_query(id: int):
+    return search_user(id)
