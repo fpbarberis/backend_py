@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, APIRouter
 from pydantic import BaseModel
 
 # para levantar el servidor de prueba
@@ -7,7 +7,7 @@ from pydantic import BaseModel
 # url documentacion FASTAPI
 # localhost + /docs
 
-app = FastAPI()
+router = APIRouter()
 
 
 class User(BaseModel):
@@ -33,26 +33,26 @@ users_list = [User(id=1, name="Jhon", surname="Doe", url="www.paginajhon.com", a
               User(id=3, name="Juan", surname="Perez", url="www.paginaJuan.com", age=18)]
 
 
-@app.get('/usersjson')
+@router.get('/usersjson')
 # la operación que ejecutamos es asíncrona
 async def usersjson():
     return users_list
 
 
-@app.get('/users/{id}')
+@router.get('/users/{id}')
 # la operación que ejecutamos es asíncrona
 async def user(id: int):
     return search_user(id)
 
 
-@app.get('/userquery/')
+@router.get('/userquery/')
 # localhots + /userquery/?id=1 para buscar por id en la query GET
 # la operación que ejecutamos es asíncrona
 async def user_query(id: int):
     return search_user(id)
 
 
-@app.post('/users/', status_code=201)
+@router.post('/users/', response_model=User, status_code=201)
 # utilizamos nuestra calse User
 async def user(user: User):
     if type(search_user(user.id)) == User:
@@ -64,7 +64,7 @@ async def user(user: User):
     return user
 
 
-@app.put('/users/')
+@router.put('/users/')
 async def user(user: User):
 
     found = False
@@ -81,7 +81,7 @@ async def user(user: User):
         return user
 
 
-@app.delete('/users/{id}')
+@router.delete('/users/{id}')
 async def user_delete(id: int):
 
     found = False
