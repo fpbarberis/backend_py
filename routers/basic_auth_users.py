@@ -23,15 +23,15 @@ class UserDB(User):
 users_db = {
     "Favio1": {
         "username": "Favio1",
-        "full_name": "Brais Moure",
-        "email": "braismoure@mourede.com",
+        "full_name": "Faviobk1",
+        "email": "favio1@gmail.com",
         "disabled": False,
         "password": "123456"
     },
     "Favio2": {
         "username": "Favio2",
-        "full_name": "Brais Moure 2",
-        "email": "braismoure2@mourede.com",
+        "full_name": "Faviobk2",
+        "email": "favio2@gmail.com",
         "disabled": True,
         "password": "654321"
     }
